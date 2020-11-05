@@ -210,14 +210,14 @@ function App() {
             />
           </div>
         ) : (
-          <form className="app__loginHome">
-            <Button onClick={() => setOpen(true)}>Login</Button>
-            <Button onClick={() => setRegisterOpen(true)}>Sign Up</Button>
-          </form>
-        )}
+            <form className="app__loginHome">
+              <Button onClick={() => setOpen(true)}>Login</Button>
+              <Button onClick={() => setRegisterOpen(true)}>Sign Up</Button>
+            </form>
+          )}
       </div>
 
-      <div className="app__posts">
+      <div className="app__posts" style={{ marginBottom: "100px" }}>
         <div className="app__postsLeft" style={{ margin: "auto" }}>
           <FlipMove
             style={{
@@ -248,10 +248,10 @@ function App() {
             containerTagName="div"
             protocol=""
             injectScript
-            onLoading={() => {}}
-            onSuccess={() => {}}
-            onAfterRender={() => {}}
-            onFailure={() => {}}
+            onLoading={() => { }}
+            onSuccess={() => { }}
+            onAfterRender={() => { }}
+            onFailure={() => { }}
           />
         </div>
       </div>
@@ -261,10 +261,10 @@ function App() {
           <ImageUpload username={user.displayName} />
         </div>
       ) : (
-        <center>
-          <h3>Please Login to upload the photos</h3>
-        </center>
-      )}
+          <center>
+            <h3>Please Login to upload the photos</h3>
+          </center>
+        )}
     </div>
   );
 }
