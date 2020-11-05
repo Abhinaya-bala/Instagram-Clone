@@ -2,10 +2,24 @@ import React, { useState } from "react";
 import firebase from "firebase";
 import { storage, db } from "./firebase";
 import "./ImageUpload.css";
-import { Input, Button } from "@material-ui/core";
-import axios from './axios';
+import { Input, Button, makeStyles } from "@material-ui/core";
+import axios from "./axios";
+
+const useStyles = makeStyles((theme) => ({
+  inputField: {
+    marginTop: "4px",
+    paddingLeft: "4px",
+  },
+  button: {
+    marginTop: "20px",
+  },
+  fileInput: {
+    marginTop: "30px",
+  },
+}));
 
 const ImageUpload = ({ username }) => {
+  const classes = useStyles();
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState(0);
@@ -41,7 +55,7 @@ const ImageUpload = ({ username }) => {
           .then((url) => {
             setUrl(url);
 
-            axios.post('/upload', {
+            axios.post("/upload", {
               caption: caption,
               user: username,
               image: url,
@@ -68,14 +82,26 @@ const ImageUpload = ({ username }) => {
       <progress className="imageupload__progress" value={progress} max="100" />
       <Input
         placeholder="Enter a caption"
+        className={classes.inputField}
         value={caption}
         onChange={(e) => setCaption(e.target.value)}
       />
       <div>
-        <input type="file" onChange={handleChange} />
-        <Button className="imageupload__button" onClick={handleUpload}>
-          Upload
-        </Button>
+        <input
+          className={classes.fileInput}
+          type="file"
+          onChange={handleChange}
+        />
+        <div>
+          <Button
+            color="primary"
+            variant="contained"
+            className={classes.button}
+            onClick={handleUpload}
+          >
+            Upload
+          </Button>
+        </div>
       </div>
 
       <br />

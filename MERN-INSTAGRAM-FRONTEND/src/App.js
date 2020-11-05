@@ -6,10 +6,9 @@ import { db, auth } from "./firebase";
 import { Button, Avatar, makeStyles, Modal, Input } from "@material-ui/core";
 import FlipMove from "react-flip-move";
 import InstagramEmbed from "react-instagram-embed";
-import axios from "./axios"
+import axios from "./axios";
 
-import Pusher from "pusher-js"
-
+import Pusher from "pusher-js";
 
 function getModalStyle() {
   const top = 50;
@@ -32,6 +31,13 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+  },
+  inputField: {
+    marginTop: "4px",
+    paddingLeft: "4px",
+  },
+  button: {
+    marginTop: "20px",
   },
 }));
 
@@ -70,22 +76,20 @@ function App() {
     };
   }, [user, username]);
 
-
   const fetchPosts = async () =>
     await axios.get("/sync").then((response) => {
       setPosts(response.data);
-    })
+    });
   useEffect(() => {
-    const pusher = new Pusher('ba6e5693cce4cacb9234', {
-      cluster: 'ap2'
+    const pusher = new Pusher("ba6e5693cce4cacb9234", {
+      cluster: "ap2",
     });
 
-    const channel = pusher.subscribe('posts');
-    channel.bind('inserted', (data) => {
-
+    const channel = pusher.subscribe("posts");
+    channel.bind("inserted", (data) => {
       fetchPosts();
     });
-  }, [])
+  }, []);
 
   useEffect(() => {
     fetchPosts();
@@ -124,17 +128,26 @@ function App() {
 
             <Input
               placeholder="email"
+              className={classes.inputField}
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               placeholder="password"
+              className={classes.inputField}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button onClick={handleLogin}>Login</Button>
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.button}
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
           </form>
         </div>
       </Modal>
@@ -152,22 +165,32 @@ function App() {
             <Input
               type="text"
               placeholder="username"
+              className={classes.inputField}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
             <Input
               placeholder="email"
               type="text"
+              className={classes.inputField}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               placeholder="password"
               type="password"
+              className={classes.inputField}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button onClick={handleRegister}>Register</Button>
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.button}
+              onClick={handleRegister}
+            >
+              Register
+            </Button>
           </form>
         </div>
       </Modal>
@@ -187,16 +210,24 @@ function App() {
             />
           </div>
         ) : (
-            <form className="app__loginHome">
-              <Button onClick={() => setOpen(true)}>Login</Button>
-              <Button onClick={() => setRegisterOpen(true)}>Sign Up</Button>
-            </form>
-          )}
+          <form className="app__loginHome">
+            <Button onClick={() => setOpen(true)}>Login</Button>
+            <Button onClick={() => setRegisterOpen(true)}>Sign Up</Button>
+          </form>
+        )}
       </div>
 
       <div className="app__posts">
-        <div className="app__postsLeft">
-          <FlipMove>
+        <div className="app__postsLeft" style={{ margin: "auto" }}>
+          <FlipMove
+            style={{
+              display: "flex",
+              "flex-wrap": "wrap",
+              "justify-content": "center",
+              "flex-direction": "column",
+              "align-items": "center",
+            }}
+          >
             {posts.map((post) => (
               <Post
                 user={user}
@@ -217,10 +248,10 @@ function App() {
             containerTagName="div"
             protocol=""
             injectScript
-            onLoading={() => { }}
-            onSuccess={() => { }}
-            onAfterRender={() => { }}
-            onFailure={() => { }}
+            onLoading={() => {}}
+            onSuccess={() => {}}
+            onAfterRender={() => {}}
+            onFailure={() => {}}
           />
         </div>
       </div>
@@ -230,10 +261,10 @@ function App() {
           <ImageUpload username={user.displayName} />
         </div>
       ) : (
-          <center>
-            <h3>Login to upload</h3>
-          </center>
-        )}
+        <center>
+          <h3>Please Login to upload the photos</h3>
+        </center>
+      )}
     </div>
   );
 }
